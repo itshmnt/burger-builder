@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 
 import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../Auxiliary/Auxiliary';
@@ -20,7 +20,7 @@ const withErrorHandler = (WrappedComponent, axios ) => {
         // }
 
         // THIS IS ALTERNATIVE TO THE ABOVE componentDidMount ()
-        constructor(props) {
+        /*constructor(props) {
             super(props);
             axios.interceptors.request.use(req => {
                 this.setState({error: null});
@@ -29,7 +29,24 @@ const withErrorHandler = (WrappedComponent, axios ) => {
             axios.interceptors.response.use(res => res, error => {
                 this.setState({error: error});
             });
+        }*/
+
+        // THIS ALSO IS ALTERNATIVE TO THE ABOVE componentDidMount ()
+        useEffect () {
+            this.reqInterceptor = axios.interceptors.request.use(req => {
+                this.setState({error: null});
+                return req;
+            });
+            this.resInterceptor = axios.interceptors.response.use(res => res, error => {
+                this.setState({error: error});
+            });
+            return (() => {
+                axios.interceptors.request.eject(this.reqInterceptor);
+                axios.interceptors.response.eject(this.resInterceptor);
+            }
+            );
         }
+
 
 
         errorConfirmedHandler = () => {
