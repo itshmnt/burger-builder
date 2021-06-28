@@ -8,8 +8,8 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import axios from '../../axios-orders';
 import * as burgerBuilderActions from '../../store/actions/index';
+import axios from '../../axios-orders';
 
 class BurgerBuilder extends Component {
     // constructor(props) {
@@ -19,20 +19,11 @@ class BurgerBuilder extends Component {
     state = {
         // totalPrice: 4,
         // purchasable: false,
-        purchasing: false,
-        loading: false,
-        error: false
+        purchasing: false
     }
 
     componentDidMount () {
         console.log(this.props);
-        // axios.get( 'https://burger-builder-hemantxs5-default-rtdb.asia-southeast1.firebasedatabase.app/ingredients.json' )
-        //     .then( response => {
-        //         this.setState( { ingredients: response.data } );
-        //     } )
-        //     .catch( error => {
-        //         this.setState( { error: true } );
-        //     } );
     }
 
     updatePurchaseState ( ingredients ) {
@@ -125,9 +116,6 @@ class BurgerBuilder extends Component {
                 price={this.props.price}
                 purchaseCancelled={this.purchaseCancelHandler}
                 purchaseContinued={this.purchaseContinueHandler} />;
-        }
-        if ( this.state.loading ) {
-            orderSummary = <Spinner />;
         }
         // {salad: true, meat: false, ...}
         return (
